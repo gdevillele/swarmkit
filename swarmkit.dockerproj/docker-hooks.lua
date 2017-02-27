@@ -2,6 +2,21 @@
 -- All top level functions are available using `docker FUNCTION_NAME` from within project directory.
 -- Default Docker commands can be overridden using identical names.
 
+
+
+-- runs integration tests
+function integration()
+	print("🐳 running integration tests...")
+	docker.cmd('run \
+	--rm \
+	-v ' .. docker.project.root .. ':/go/src/github.com/docker/swarmkit \
+	golang:1.8.0-alpine \
+	ash -c "cd /go/src/github.com/docker/swarmkit && go test ./integration" \
+	')
+end
+
+
+
 -- Lists project containers
 function ps(args)
 	local argsStr = utils.join(args, " ")
